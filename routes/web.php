@@ -2,6 +2,7 @@
 
 use App\Models\Sale;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/sales', function () {
     $sales = Sale::latest()->paginate(6);
     return view('coffee_sales', compact('sales'));
 })->middleware(['auth'])->name('coffee.sales');
+
+Route::resource('sale', SaleController::class)->only(['store'])->middleware(['auth']);
 
 Route::get('/shipping-partners', function () {
     return view('shipping_partners');

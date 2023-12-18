@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use Illuminate\Http\Request;
+use App\Services\CalculationService;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 
@@ -27,9 +29,19 @@ class SaleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSaleRequest $request)
+    public function store(StoreSaleRequest $request, CalculationService $CalculationService)
     {
-        //
+        $quantiy = $request->quantity;
+        $unitcost = $request->unitcost;
+        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost);
+
+        sale::create([
+            'quantity' => $quantiy,
+            'unitcost' => $unitcost,
+            'sellingprice' => $sellingprice,
+        ]);
+
+        return redirect(route('coffee.sales'));
     }
 
     /**
@@ -62,5 +74,14 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         //
+    }
+
+    public function calculateSalesPrice(Request $request, CalculationService $CalculationService)
+    {
+        $quantiy = $request->quantity;
+        $unitcost = $request->unitcost;
+        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost);
+
+        return  response()->json(['sellingprice' => $sellingprice]);
     }
 }

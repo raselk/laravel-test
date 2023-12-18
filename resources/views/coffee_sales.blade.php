@@ -14,6 +14,16 @@
                     
                     <form action="{{ route('sale.store')}}" method="post">
                         @csrf  
+
+                        <div class="form-group">
+                            <label for="productid">{{ __('Product') }}</label>
+                            <select name="productid" id="productid" oninput="calculateSellingPrice()">
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id}}">{{ $product->name }}</option>   
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="quantity">{{ __('Quantity') }}</label>
                             <input type="number" id="quantity" name="quantity" value="0" min="0" oninput="calculateSellingPrice()">

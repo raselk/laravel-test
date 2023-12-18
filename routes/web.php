@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Sale;
+use App\Models\CoffeeProduct;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleController;
 
@@ -23,7 +24,8 @@ Route::redirect('/dashboard', '/sales');
 
 Route::get('/sales', function () {
     $sales = Sale::latest()->paginate(6);
-    return view('coffee_sales', compact('sales'));
+    $products = CoffeeProduct::all();
+    return view('coffee_sales', ['sales' => $sales, 'products' => $products]);
 })->middleware(['auth'])->name('coffee.sales');
 
 Route::resource('sale', SaleController::class)->only(['store'])->middleware(['auth']);

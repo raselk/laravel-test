@@ -33,9 +33,11 @@ class SaleController extends Controller
     {
         $quantiy = $request->quantity;
         $unitcost = $request->unitcost;
-        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost);
+        $productid = $request->productid;
+        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost, $productid);
 
         sale::create([
+            'productid' => $productid,
             'quantity' => $quantiy,
             'unitcost' => $unitcost,
             'sellingprice' => $sellingprice,
@@ -80,7 +82,9 @@ class SaleController extends Controller
     {
         $quantiy = $request->quantity;
         $unitcost = $request->unitcost;
-        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost);
+        $productid = $request->productid;
+        $sellingprice = $CalculationService->calculateSalesPrice($quantiy, $unitcost, $productid);
+
 
         return  response()->json(['sellingprice' => $sellingprice]);
     }

@@ -1,6 +1,7 @@
 function calculateSellingPrice() {
     var quantity = document.getElementById('quantity').value;
     var unitcost = document.getElementById('unitcost').value;
+    var productid = document.getElementById('productid').value;
 
     if (quantity && unitcost) {
         fetch('api/sales/calculateSalesPrice', {
@@ -10,7 +11,7 @@ function calculateSellingPrice() {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF token
             },
-            body: JSON.stringify({ quantity: quantity, unitcost: unitcost })
+            body: JSON.stringify({ quantity: quantity, unitcost: unitcost, productid : productid })
         })
         .then(response => response.json())
         .then(data => {

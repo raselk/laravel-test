@@ -42,22 +42,35 @@
                             {{ __('Record Sale') }}
                         </button>
                     </form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif                    
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Previous Sales') }}</h2>
                     <div class="div-table">
                         
                         <div class="div-table-row header">
+                            <div class="div-table-cell">{{ __('Product') }}</div>
                             <div class="div-table-cell">{{ __('Quantity') }}</div>
                             <div class="div-table-cell">{{ __('Unit cost') }}</div>
                             <div class="div-table-cell">{{ __('Selling Price') }}</div>
+                            <div class="div-table-cell">{{ __('Sold at') }}</div>
                         </div>
                         @forelse ($sales as $sale)
                         <div class="div-table-row">
+                            <div class="div-table-cell">{{ $sale->CoffeeProduct->name ?? 'n/a'  }}</div>
                             <div class="div-table-cell">{{ $sale->quantity }}</div>
-                            <div class="div-table-cell">&pound;{{ number_format($sale->unitcost,2) }}</div>
-                            <div class="div-table-cell">&pound;{{ number_format($sale->sellingprice,2) }}</div>
-                        </div>                            
+                            <div class="div-table-cell"><x-money amount="{{ $sale->unitcost*100 }}" currency="GBP" /></div>
+                            <div class="div-table-cell"><x-money amount="{{ $sale->sellingprice*100 }}" currency="GBP" /></div>
+                            <div class="div-table-cell">{{ $sale->created_at }}</div>
+                        </div>                        
                         @empty
                         <div class="div-table-row">
                             No sales to report yet

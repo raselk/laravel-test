@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::redirect('/dashboard', '/sales');
 
 Route::get('/sales', function () {
-    $sales = Sale::latest()->paginate(6);
+    $sales = Sale::with('CoffeeProduct')->latest()->paginate(6);
     $products = CoffeeProduct::all();
     return view('coffee_sales', ['sales' => $sales, 'products' => $products]);
 })->middleware(['auth'])->name('coffee.sales');

@@ -15,4 +15,9 @@ class Sale extends Model
         'unitcost',
         'sellingprice'
     ];
+
+    public function CoffeeProduct()
+    {
+        return $this->belongsTo(CoffeeProduct::class, 'productid');
+    }
 }

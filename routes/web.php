@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Sale;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +21,12 @@ Route::get('/', function () {
 Route::redirect('/dashboard', '/sales');
 
 Route::get('/sales', function () {
-    return view('coffee_sales');
+    $sales = Sale::latest()->paginate(6);
+    return view('coffee_sales', compact('sales'));
 })->middleware(['auth'])->name('coffee.sales');
 
 Route::get('/shipping-partners', function () {
     return view('shipping_partners');
 })->middleware(['auth'])->name('shipping.partners');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

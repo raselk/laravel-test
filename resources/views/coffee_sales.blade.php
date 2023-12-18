@@ -38,12 +38,18 @@
                             <div class="div-table-cell">{{ __('Unit cost') }}</div>
                             <div class="div-table-cell">{{ __('Selling Price') }}</div>
                         </div>
-
+                        @forelse ($sales as $sale)
                         <div class="div-table-row">
-                            <div class="div-table-cell">1</div>
-                            <div class="div-table-cell">&pound;10.00</div>
-                            <div class="div-table-cell">&pound;23.33</div>
+                            <div class="div-table-cell">{{ $sale->quantity }}</div>
+                            <div class="div-table-cell">&pound;{{ number_format($sale->unitcost,2) }}</div>
+                            <div class="div-table-cell">&pound;{{ number_format($sale->sellingprice,2) }}</div>
                         </div>                            
+                        @empty
+                        <div class="div-table-row">
+                            No sales to report yet
+                        </div>                          
+                        @endforelse
+                        {{ $sales->links() }}                           
                     </div>
             </div>
         </div>

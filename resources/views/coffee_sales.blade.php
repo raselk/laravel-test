@@ -31,7 +31,7 @@
                 
                         <div class="form-group">
                             <label for="unitcost">{{ __('Unit Cost (£)') }}</label>
-                            <input type="number" id="unitcost" name="unitcost" value="0.00" min="0" oninput="calculateSellingPrice()">
+                            <input type="number" id="unitcost" name="unitcost" value="0.00" min="0" step="0.01" oninput="calculateSellingPrice()">
                         </div>                    
 
                         <div class="form-group">

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\CoffeeProduct;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -22,9 +23,16 @@ class BackendApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $coffeeproduct = CoffeeProduct::create([
+            'name' => 'Gold Coffee',
+            'profitmargin' => 0.25,
+        ]);
+
+
         $response = $this->actingAs($user)->postJson('/api/sales/calculateSalesPrice', [
             'quantity' => 1,
             'unitcost' => 10,
+            'productid' => $coffeeproduct->id
         ]);
 
         $response->assertStatus(200);
@@ -36,10 +44,16 @@ class BackendApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $coffeeproduct = CoffeeProduct::create([
+            'name' => 'Gold Coffee',
+            'profitmargin' => 0.25,
+        ]);
+
 
         $response = $this->actingAs($user)->postJson('/api/sales/calculateSalesPrice', [
             'quantity' => 1,
             'unitcost' => -10,
+            'productid' => $coffeeproduct->id
         ]);
 
         $response->assertStatus(200);
@@ -51,9 +65,16 @@ class BackendApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $coffeeproduct = CoffeeProduct::create([
+            'name' => 'Gold Coffee',
+            'profitmargin' => 0.25,
+        ]);
+
+
         $response = $this->actingAs($user)->postJson('/api/sales/calculateSalesPrice', [
-            'quantity' => 1,
-            'unitcost' => -10,
+            'quantity' => -5,
+            'unitcost' => 10,
+            'productid' => $coffeeproduct->id
         ]);
 
         $response->assertStatus(200);

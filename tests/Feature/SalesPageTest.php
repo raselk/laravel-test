@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\CoffeeProduct;
 use Tests\TestCase;
 use App\Models\User;
 use Database\Seeders\SaleSeeder;
@@ -54,10 +55,12 @@ class SalesPageTest extends TestCase
     public function test_adding_a_new_sale(): void
     {
         $user = User::factory()->create();
+        $coffee = CoffeeProduct::factory()->create();
 
         $response = $this->actingAs($user)->post('/sale', [
             'quantity' => 1,
-            'unitcost' => 10
+            'unitcost' => 10,
+            'productid' => $coffee->id,
         ]);
 
         $response->assertStatus(302)
@@ -67,10 +70,12 @@ class SalesPageTest extends TestCase
     public function test_adding_a_negative_quantity_fail(): void
     {
         $user = User::factory()->create();
+        $coffee = CoffeeProduct::factory()->create();
 
         $response = $this->actingAs($user)->post('/sale', [
             'quantity' => -1,
-            'unitcost' => 10
+            'unitcost' => 10,
+            'productid' => $coffee->id,
         ]);
 
         $response->assertStatus(302);
@@ -80,10 +85,14 @@ class SalesPageTest extends TestCase
     public function test_adding_a_negative_unitcost_fail(): void
     {
         $user = User::factory()->create();
+        $coffee = CoffeeProduct::factory()->create();
+
 
         $response = $this->actingAs($user)->post('/sale', [
             'quantity' => 1,
-            'unitcost' => -10
+            'unitcost' => -10,
+            'productid' => $coffee->id,
+
         ]);
 
         $response->assertStatus(302);
@@ -93,10 +102,12 @@ class SalesPageTest extends TestCase
     public function test_adding_a_succesfull_sale(): void
     {
         $user = User::factory()->create();
+        $coffee = CoffeeProduct::factory()->create();
 
         $response = $this->actingAs($user)->post('/sale', [
             'quantity' => 1,
-            'unitcost' => 10
+            'unitcost' => 10,
+            'productid' => $coffee->id,
         ]);
 
         $response->assertStatus(302);
